@@ -137,24 +137,55 @@
       return Math.max(0, workTrack.scrollWidth - workViewport.clientWidth);
     }
 
+    function setSpacerWidth(spare) {
+      if (!workTrackSpacer) return;
+      workTrackSpacer.style.flex = "0 0 " + spare + "px";
+      workTrackSpacer.style.width = spare + "px";
+      workTrackSpacer.style.minWidth = spare + "px";
+    }
+
     function ensureScrollRoom(requiredOffset) {
       const lastCard = cards[total - 1];
       if (!lastCard || !workTrackSpacer) return;
 
       const clientW = workViewport.clientWidth;
       const contentEnd = lastCard.offsetLeft + lastCard.offsetWidth;
-      let spare = Math.max(getEdgePad(), requiredOffset + clientW - contentEnd);
+      let spare = Math.max(getEdgePad(), requiredOffset + clientW - contentEnd + 16);
       const currentSpare = workTrackSpacer.offsetWidth;
 
       if (spare < currentSpare) spare = currentSpare;
 
-      while (spare < 3000) {
-        workTrackSpacer.style.flexBasis = spare + "px";
-        workTrackSpacer.style.width = spare + "px";
+      while (spare < 4000) {
+        setSpacerWidth(spare);
         workTrack.offsetHeight;
         if (getMaxScrollOffset() >= requiredOffset) break;
-        spare += 32;
+        spare += 48;
       }
+    }
+
+    function measureCardEdges(index, offset) {
+      const savedTransform = workTrack.style.transform;
+      const savedTransition = workTrack.style.transition;
+      const card = cards[index];
+      const metrics = getViewportMetrics();
+      const alignLeft = workAlign
+        ? workAlign.getBoundingClientRect().left
+        : metrics.left;
+      const edgeGap = 12;
+
+      workTrack.style.transition = "none";
+      workTrack.style.transform = "translateX(" + (-offset) + "px)";
+      workTrack.offsetHeight;
+
+      const rect = card.getBoundingClientRect();
+      const edges = {
+        left: alignLeft - rect.left,
+        right: rect.right - (metrics.right - edgeGap),
+      };
+
+      workTrack.style.transform = savedTransform;
+      workTrack.style.transition = savedTransition;
+      return edges;
     }
 
     function getSlideTarget(index) {
@@ -165,21 +196,36 @@
       const alignLeft = workAlign
         ? workAlign.getBoundingClientRect().left
         : metrics.left;
-      const cardWidth = card.offsetWidth;
       const edgeGap = 12;
+      const clientW = workViewport.clientWidth;
       const leftInset = alignLeft - metrics.left;
       const leftOffset = Math.max(0, card.offsetLeft - leftInset);
-
-      if (index !== total - 1) return leftOffset;
-
-      const rightInset = (metrics.right - edgeGap - cardWidth) - metrics.left;
-      const rightOffset = Math.max(0, card.offsetLeft - rightInset);
+      const rightOffset = Math.max(
+        0,
+        card.offsetLeft + card.offsetWidth + edgeGap - clientW
+      );
 
       ensureScrollRoom(Math.max(leftOffset, rightOffset));
       const maxOffset = getMaxScrollOffset();
 
-      if (leftOffset <= maxOffset) return leftOffset;
-      return Math.min(rightOffset, maxOffset);
+      let offset;
+      if (index === total - 1) {
+        offset = leftOffset <= maxOffset ? leftOffset : Math.min(rightOffset, maxOffset);
+        if (offset > maxOffset) offset = maxOffset;
+      } else {
+        offset = Math.min(leftOffset, maxOffset);
+      }
+
+      let edges = measureCardEdges(index, offset);
+      if (edges.right > 0.5) {
+        offset = Math.min(maxOffset, offset + edges.right);
+        edges = measureCardEdges(index, offset);
+      }
+      if (index !== total - 1 && edges.left > 0.5) {
+        offset = Math.max(0, offset - edges.left);
+      }
+
+      return offset;
     }
 
     function getSlideOffset(index) {
@@ -198,29 +244,7 @@
     }
 
     function resolveFinalOffset(index) {
-      const savedTransform = workTrack.style.transform;
-      const savedTransition = workTrack.style.transition;
-      let offset = getSlideTarget(index);
-
-      workTrack.style.transition = "none";
-      workTrack.style.transform = "translateX(" + (-offset) + "px)";
-      workTrack.offsetHeight;
-
-      if (index === total - 1) {
-        const metrics = getViewportMetrics();
-        const clipRight = metrics.right - 12;
-        const overflow = cards[index].getBoundingClientRect().right - clipRight;
-        if (overflow > 0) {
-          offset = Math.min(getMaxScrollOffset(), offset + overflow);
-          ensureScrollRoom(offset);
-          workTrack.style.transform = "translateX(" + (-offset) + "px)";
-          workTrack.offsetHeight;
-        }
-      }
-
-      workTrack.style.transform = savedTransform;
-      workTrack.style.transition = savedTransition;
-      return offset;
+      return getSlideTarget(index);
     }
 
     function setTranslateX(offset, animate) {
@@ -259,15 +283,24 @@
       updateWorkControls();
     }
 
+    let lastPinIndex = -1;
+    let lastAppliedOffset = -1;
+
     function goTo(index, animate) {
       const nextIndex = Math.max(0, Math.min(total - 1, index));
       if (nextIndex === activeIndex && animate !== false) return false;
 
+      const prevIndex = activeIndex;
       activeIndex = nextIndex;
       setActiveCard(activeIndex);
       updateWorkControls();
 
       const finalOffset = resolveFinalOffset(activeIndex);
+      if (finalOffset === lastAppliedOffset && nextIndex === prevIndex && animate === false) {
+        return true;
+      }
+      lastAppliedOffset = finalOffset;
+
       const useAnimate = animate !== false && !reducedMotionQuery.matches;
 
       if (!useAnimate) {
@@ -300,11 +333,13 @@
       if (!workPinWrap || !workPin) return;
       if (!scrollPinEnabled) {
         workPinWrap.style.height = "";
+        lastPinIndex = -1;
         return;
       }
       updateTrackPadding();
       const step = getScrollStep();
-      const pinHeight = workPin.offsetHeight;
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+      const pinHeight = Math.max(workPin.offsetHeight, window.innerHeight - navH);
       workPinWrap.style.height = (pinHeight + (total - 1) * step) + "px";
     }
 
@@ -316,6 +351,7 @@
           ? "Keep scrolling →"
           : "Drag or use arrows →";
       }
+      lastPinIndex = -1;
       setPinHeight();
       onPinScroll();
     }
@@ -329,9 +365,10 @@
       const step = getScrollStep();
       const pinTravel = (total - 1) * step;
       const progress = pinTravel > 0 ? Math.min(1, scrolled / pinTravel) : 0;
-      const targetIndex = Math.min(total - 1, Math.round(progress * (total - 1)));
+      const targetIndex = Math.min(total - 1, Math.floor(progress * total));
 
-      if (targetIndex !== activeIndex) {
+      if (targetIndex !== lastPinIndex) {
+        lastPinIndex = targetIndex;
         goTo(targetIndex, false);
       }
     }
@@ -440,6 +477,7 @@
 
     window.addEventListener("scroll", onPinScroll, { passive: true });
     window.addEventListener("resize", function () {
+      lastAppliedOffset = -1;
       evaluateScrollPin();
       updateTrackPadding();
       goTo(activeIndex, false);
@@ -447,6 +485,16 @@
 
     reducedMotionQuery.addEventListener("change", evaluateScrollPin);
     mobileQuery.addEventListener("change", evaluateScrollPin);
+
+    if ("ResizeObserver" in window && workViewport) {
+      const workResizeObserver = new ResizeObserver(function () {
+        if (isDragging || isAnimating) return;
+        lastAppliedOffset = -1;
+        updateTrackPadding();
+        goTo(activeIndex, false);
+      });
+      workResizeObserver.observe(workViewport);
+    }
 
     window.addEventListener("load", function () {
       evaluateScrollPin();
