@@ -174,7 +174,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=37" />
 </head>
 <body>
   <!-- Navigation -->
@@ -230,115 +230,125 @@
       </div>
     </section>
 
-    <!-- Selected Work -->
+    <!-- Featured -->
     <section class="work" id="work">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Selected Work</p>
-          <h2 class="section-title">Systems shipped end&#8209;to&#8209;end.</h2>
-          <p class="section-lede">
-            A sample of client work across wellness, professional services, consumer brands,
-            and growth-stage businesses. Internal systems, customer-facing products, and
-            revenue engines, built end to end.
-          </p>
+      <div class="work__pin-wrap" id="workPinWrap">
+        <div class="work__pin" id="workPin">
+          <div class="container">
+            <div class="section-head reveal">
+              <p class="eyebrow">Featured</p>
+              <h2 class="section-title">Systems shipped end&#8209;to&#8209;end.</h2>
+              <p class="section-lede">
+                A sample of client work across wellness, professional services, consumer brands,
+                and growth-stage businesses. Internal systems, customer-facing products, and
+                revenue engines, built end to end.
+              </p>
+            </div>
+
+            <div class="work__controls reveal" id="workAlign">
+          <button type="button" class="work__btn" id="workPrev" aria-label="Previous project">
+            <span aria-hidden="true">←</span>
+          </button>
+          <span class="work__counter mono" id="workCounter"><span id="workCurrent">01</span> / 06</span>
+          <button type="button" class="work__btn" id="workNext" aria-label="Next project">
+            <span aria-hidden="true">→</span>
+          </button>
         </div>
 
-        <div class="cases">
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">01</span></div>
-            <div class="case__body">
-              <p class="case__client mono">Wellness &amp; Hospitality Client</p>
-              <h3 class="case__title">Staff Portal &amp; Management Operations</h3>
-              <p class="case__desc">
-                For a multi-location wellness brand, designed and developed internal web
-                apps that centralize staff operations, scheduling, and management workflows,
-                replacing fragmented processes with a single source of truth.
-              </p>
-              <ul class="case__tags">
-                <li>Web App</li><li>Internal Tooling</li><li>UX/UI</li><li>Automation</li>
-              </ul>
-            </div>
+        <div class="work__carousel reveal" id="workCarousel">
+          <div class="work__viewport" id="workViewport" tabindex="0">
+            <div class="work__track" id="workTrack" role="region" aria-label="Featured work projects" aria-live="polite">
+          <article class="case-card is-active">
+            <span class="case-card__index mono">01</span>
+            <p class="case-card__client mono">Wellness &amp; Hospitality Client</p>
+            <h3 class="case-card__title">Staff Portal &amp; Management Operations</h3>
+            <p class="case-card__desc">
+              For a multi-location wellness brand, designed and developed internal web
+              apps that centralize staff operations, scheduling, and management workflows,
+              replacing fragmented processes with a single source of truth.
+            </p>
+            <ul class="case-card__tags">
+              <li>Web App</li><li>Internal Tooling</li><li>UX/UI</li><li>Automation</li>
+            </ul>
           </article>
 
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">02</span></div>
-            <div class="case__body">
-              <p class="case__client mono">Professional Services Client</p>
-              <h3 class="case__title">Client Scheduling System</h3>
-              <p class="case__desc">
-                Built a scheduling platform for a service-based business with automation
-                that removed hours of admin: confirmations, reminders, and handoffs wired
-                directly into daily operations.
-              </p>
-              <ul class="case__tags">
-                <li>Product Design</li><li>Automation</li><li>Full-Stack</li>
-              </ul>
-            </div>
+          <article class="case-card">
+            <span class="case-card__index mono">02</span>
+            <p class="case-card__client mono">Professional Services Client</p>
+            <h3 class="case-card__title">Client Scheduling System</h3>
+            <p class="case-card__desc">
+              Built a scheduling platform for a service-based business with automation
+              that removed hours of admin: confirmations, reminders, and handoffs wired
+              directly into daily operations.
+            </p>
+            <ul class="case-card__tags">
+              <li>Product Design</li><li>Automation</li><li>Full-Stack</li>
+            </ul>
           </article>
 
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">03</span></div>
-            <div class="case__body">
-              <p class="case__client mono">Growth-Stage Lifestyle Brand</p>
-              <h3 class="case__title">GoHighLevel CRM Build</h3>
-              <p class="case__desc">
-                Stood up a new CRM for a scaling consumer brand on GoHighLevel: pipelines,
-                automations, and lifecycle workflows connecting lead generation through to
-                retention.
-              </p>
-              <ul class="case__tags">
-                <li>CRM Architecture</li><li>GoHighLevel</li><li>Lifecycle Automation</li>
-              </ul>
-            </div>
+          <article class="case-card">
+            <span class="case-card__index mono">03</span>
+            <p class="case-card__client mono">Growth-Stage Lifestyle Brand</p>
+            <h3 class="case-card__title">GoHighLevel CRM Build</h3>
+            <p class="case-card__desc">
+              Stood up a new CRM for a scaling consumer brand on GoHighLevel: pipelines,
+              automations, and lifecycle workflows connecting lead generation through to
+              retention.
+            </p>
+            <ul class="case-card__tags">
+              <li>CRM Architecture</li><li>GoHighLevel</li><li>Lifecycle Automation</li>
+            </ul>
           </article>
 
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">04</span></div>
-            <div class="case__body">
-              <p class="case__client mono">Multi-Location Operations Client</p>
-              <h3 class="case__title">VoIP &amp; IVR Phone System</h3>
-              <p class="case__desc">
-                Implemented a new VoIP and IVR system for a growing operations business,
-                designing call flows and routing that scale customer communication without
-                adding headcount.
-              </p>
-              <ul class="case__tags">
-                <li>Telephony</li><li>IVR Design</li><li>Ops Infrastructure</li>
-              </ul>
-            </div>
+          <article class="case-card">
+            <span class="case-card__index mono">04</span>
+            <p class="case-card__client mono">Multi-Location Operations Client</p>
+            <h3 class="case-card__title">VoIP &amp; IVR Phone System</h3>
+            <p class="case-card__desc">
+              Implemented a new VoIP and IVR system for a growing operations business,
+              designing call flows and routing that scale customer communication without
+              adding headcount.
+            </p>
+            <ul class="case-card__tags">
+              <li>Telephony</li><li>IVR Design</li><li>Ops Infrastructure</li>
+            </ul>
           </article>
 
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">05</span></div>
-            <div class="case__body">
-              <p class="case__client mono">B2C Lead Generation Client</p>
-              <h3 class="case__title">Sales &amp; Marketing Funnels + Paid Ads</h3>
-              <p class="case__desc">
-                For a direct-to-consumer brand, designed and managed full funnels, lead-gen
-                operations, and Google &amp; Meta ad campaigns backed by analytics that turn
-                spend into measurable pipeline.
-              </p>
-              <ul class="case__tags">
-                <li>Funnels</li><li>Google &amp; Meta Ads</li><li>Lead Gen</li><li>Analytics</li>
-              </ul>
-            </div>
+          <article class="case-card">
+            <span class="case-card__index mono">05</span>
+            <p class="case-card__client mono">B2C Lead Generation Client</p>
+            <h3 class="case-card__title">Sales &amp; Marketing Funnels + Paid Ads</h3>
+            <p class="case-card__desc">
+              For a direct-to-consumer brand, designed and managed full funnels, lead-gen
+              operations, and Google &amp; Meta ad campaigns backed by analytics that turn
+              spend into measurable pipeline.
+            </p>
+            <ul class="case-card__tags">
+              <li>Funnels</li><li>Google &amp; Meta Ads</li><li>Lead Gen</li><li>Analytics</li>
+            </ul>
           </article>
 
-          <article class="case reveal">
-            <div class="case__index"><span class="mono">06</span></div>
-            <div class="case__body">
-              <p class="case__client mono">Consumer Mobile Product Client</p>
-              <h3 class="case__title">Mobile App, Product Management</h3>
-              <p class="case__desc">
-                Project managing a consumer mobile app from concept toward launch, owning
-                roadmap, cross-functional coordination, and product direction across design,
-                engineering, and go-to-market.
-              </p>
-              <ul class="case__tags">
-                <li>Product Management</li><li>Roadmap</li><li>Mobile</li>
-              </ul>
-            </div>
+          <article class="case-card">
+            <span class="case-card__index mono">06</span>
+            <p class="case-card__client mono">Consumer Mobile Product Client</p>
+            <h3 class="case-card__title">Mobile App, Product Management</h3>
+            <p class="case-card__desc">
+              Project managing a consumer mobile app from concept toward launch, owning
+              roadmap, cross-functional coordination, and product direction across design,
+              engineering, and go-to-market.
+            </p>
+            <ul class="case-card__tags">
+              <li>Product Management</li><li>Roadmap</li><li>Mobile</li>
+            </ul>
           </article>
+            </div>
+          </div>
+          <div class="work__progress" id="workProgress" aria-hidden="true">
+            <div class="work__progress-bar" id="workProgressBar"></div>
+          </div>
+          <p class="work__hint mono reveal" id="workHint" aria-hidden="true">Keep scrolling →</p>
+        </div>
+          </div>
         </div>
       </div>
     </section>
@@ -347,7 +357,7 @@
     <section class="capabilities" id="capabilities">
       <div class="container">
         <div class="section-head reveal">
-          <p class="eyebrow">Capabilities</p>
+          <p class="eyebrow">Skills</p>
           <h2 class="section-title">One operator. Every layer.</h2>
           <p class="section-lede">
             I'm a jane of all trades, passionate about problem solving and energized by
@@ -519,7 +529,10 @@
               <textarea name="message" rows="4" required placeholder="Tell me about your project…"></textarea>
             </label>
 
-            <button type="submit" class="btn btn--primary contact__submit">Send message</button>
+            <div class="aurora-btn">
+              <div class="aurora-btn__glow" aria-hidden="true"></div>
+              <button type="submit" class="aurora-btn__button contact__submit">Send message</button>
+            </div>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
 
@@ -540,6 +553,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=23"></script>
 </body>
 </html>
