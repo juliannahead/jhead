@@ -1,0 +1,316 @@
+<!--
+============================================================
+  SCHEMA MARKUP — Julianna Head Portfolio
+  For AEO (AI answer engines), GEO, and SEO
+============================================================
+
+HOW TO USE:
+1. Domain (juliannahead.com), LinkedIn, and GitHub are already filled in.
+   When you have a profile/headshot image, add an "image" property to the
+   Person and ProfessionalService blocks pointing to its full URL — this
+   strengthens your entity and can feed a Google Knowledge Panel.
+2. Paste these <script> blocks into the <head> of your site
+   (or the <head> section of your site builder's custom-code area).
+3. Validate at https://validator.schema.org and
+   https://search.google.com/test/rich-results before publishing.
+
+IMPORTANT: Schema must reflect content that is ALSO visible on the page.
+The FAQ block at the bottom needs matching visible Q&A copy on your site —
+that visible copy is included after the schema for you to drop in.
+============================================================
+-->
+
+
+<!-- ============================================================
+     1. PERSON  —  tells search + AI engines WHO you are and
+        every skill you should be matched to.
+============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://juliannahead.com/#julianna",
+  "name": "Julianna Head",
+  "url": "https://juliannahead.com",
+  "jobTitle": "Digital Operations & Growth Architect",
+  "description": "Julianna Head is a Digital Operations & Growth Architect who sees the whole picture and builds cohesive, data-driven systems. She identifies the gaps in funnels and operations across design, engineering, marketing, product, and data, then connects every piece into one engine that supercharges operations, boosts revenue, and helps brands thrive.",
+  "knowsAbout": [
+    "Web Development",
+    "Web App Development",
+    "Software Consulting",
+    "Graphic Design",
+    "Web Design",
+    "App UI Design",
+    "UI/UX Design",
+    "Brand and Visual Systems",
+    "Digital Marketing",
+    "Search Engine Optimization (SEO)",
+    "Answer Engine Optimization (AEO)",
+    "Social Media Management",
+    "Google Ads",
+    "Meta Ads",
+    "Lead Generation",
+    "Sales Funnels",
+    "Data Analysis",
+    "Marketing Analytics",
+    "Performance Analytics",
+    "Digital Product Management",
+    "Product Roadmapping",
+    "Digital Operations",
+    "CRM Architecture",
+    "GoHighLevel",
+    "Marketing Automation",
+    "Lifecycle Automation",
+    "VoIP and IVR Systems",
+    "Content Creation",
+    "Video Editing",
+    "Videography",
+    "Photography",
+    "Hiring and Recruiting",
+    "Grant and Book Editing"
+  ],
+  "hasOccupation": [
+    { "@type": "Occupation", "name": "Web Developer" },
+    { "@type": "Occupation", "name": "Software Engineer" },
+    { "@type": "Occupation", "name": "Graphic Designer" },
+    { "@type": "Occupation", "name": "UI/UX Designer" },
+    { "@type": "Occupation", "name": "Digital Marketing Specialist" },
+    { "@type": "Occupation", "name": "SEO Specialist" },
+    { "@type": "Occupation", "name": "Data Analyst" },
+    { "@type": "Occupation", "name": "Digital Product Manager" },
+    { "@type": "Occupation", "name": "Consultant" },
+    { "@type": "Occupation", "name": "Content Creator" }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/juliannahead",
+    "https://github.com/juliannahead"
+  ],
+  "worksFor": { "@id": "https://juliannahead.com/#business" }
+}
+</script>
+
+
+<!-- ============================================================
+     2. PROFESSIONAL SERVICE  —  the business entity + a full
+        catalog of services, so you get matched to searches for
+        each individual service you offer.
+============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://juliannahead.com/#business",
+  "name": "Julianna Head — Digital Operations & Growth",
+  "url": "https://juliannahead.com",
+  "description": "Julianna Head is a Digital Operations & Growth Architect who sees the whole picture across design, engineering, marketing, product, and data. She identifies where revenue leaks out of funnels and operations, then architects cohesive, data-driven systems that supercharge operations, boost revenue, and help brands thrive — design it, build it, market it, measure it, improve it.",
+  "founder": { "@id": "https://juliannahead.com/#julianna" },
+  "slogan": "I see the whole picture, then build the system that makes it grow.",
+  "priceRange": "$$",
+  "areaServed": [
+    { "@type": "Country", "name": "United States" },
+    { "@type": "AdministrativeArea", "name": "Remote / Worldwide" }
+  ],
+  "knowsAbout": [
+    "Web Development", "Web App Development", "UI/UX Design", "Branding",
+    "SEO", "Digital Marketing", "Google Ads", "Meta Ads", "Lead Generation",
+    "Data Analytics", "Product Management", "CRM Architecture", "GoHighLevel",
+    "Marketing Automation", "VoIP and IVR Systems", "Content Creation"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Services",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Design & Brand",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic Design" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "App UI Design" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brand & Visual Systems" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Engineering & Development",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web App Development" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Software Consulting" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Marketing & Growth",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Marketing" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Search Engine Optimization (SEO)" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Social Media Management" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google & Meta Ads Management" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Lead Generation" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Data & Analytics",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Analysis" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing Analytics" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ads & Performance Analytics" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Product & Strategy",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Product Management" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Consulting" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Operations" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM & Systems Architecture" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Content & Media",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Content Creation" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Editing" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Videography" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Photography" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Operations & People",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hiring & Recruiting" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing Operations" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Editorial",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Grant & Book Editing" } }
+        ]
+      }
+    ]
+  }
+}
+</script>
+
+
+<!-- ============================================================
+     3. WEBSITE  —  ties the domain to the entity.
+============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://juliannahead.com/#website",
+  "url": "https://juliannahead.com",
+  "name": "Julianna Head",
+  "description": "Digital Operations & Growth Architect. Julianna Head sees the whole picture and builds cohesive, data-driven systems across design, engineering, marketing, product, and data.",
+  "publisher": { "@id": "https://juliannahead.com/#julianna" }
+}
+</script>
+
+
+<!-- ============================================================
+     4. FAQ  —  THE big lever for AI answer engines (AEO/GEO).
+        AI engines lift these Q&As directly into answers when
+        someone asks "who can build my CRM" or "freelance product
+        manager + developer." Keep answers conversational and
+        specific.
+
+        ⚠ The questions/answers below MUST also appear as visible
+        text on your page. The matching visible copy is provided
+        right after this script — paste it into your site too.
+============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://juliannahead.com/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does Julianna Head do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Julianna Head is a Digital Operations & Growth Architect. She sees the whole picture across 20+ disciplines — web and app development, UI/UX and brand design, SEO and paid ads, data analytics, product management, and CRM architecture — finds where revenue is leaking out of funnels and operations, and builds cohesive, data-driven systems that supercharge operations, boost revenue, and help brands thrive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What kinds of businesses does Julianna Head work with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "She partners with clients across wellness and hospitality, professional services, consumer and direct-to-consumer brands, and growth-stage companies. Engagements have included internal web apps, automated client systems, CRM builds, VoIP/IVR phone infrastructure, paid acquisition, and consumer mobile product management."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Julianna Head build a custom CRM or marketing automation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. She builds CRMs from the ground up — including on GoHighLevel — with pipelines, lifecycle automations, and workflows that move a customer from first lead to repeat buyer, so nothing slips through the cracks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Julianna Head manage Google and Meta ad campaigns?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. She designs and runs full sales funnels and lead-generation operations, and manages Google and Meta ad campaigns backed by analytics that turn ad spend into measurable, predictable pipeline — work that has driven 40%+ revenue growth and 50%+ lifts in conversion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Julianna Head available for freelance or fractional work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. She takes on new clients for consulting, product builds, brand and growth projects, and fractional digital operations work, available remotely and across the United States."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why hire one person instead of a full agency or team?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most projects break in the gaps between teams. Because Julianna designs, builds, markets, and measures under one roof, every engagement moves faster with fewer handoffs and systems that actually fit together — and the work compounds instead of fragmenting."
+      }
+    }
+  ]
+}
+</script>
+
+
+<!-- ============================================================
+     VISIBLE FAQ COPY  —  paste this into a visible section of
+     your page so the schema above is backed by real content.
+     (Remove this comment and the HTML comment wrappers.)
+============================================================ -->
+<!--
+<section id="faq">
+  <h2>FAQ</h2>
+
+  <h3>What does Julianna Head do?</h3>
+  <p>I'm a Digital Operations & Growth Architect. I see the whole picture across 20+ disciplines — web and app development, UI/UX and brand design, SEO and paid ads, data analytics, product management, and CRM architecture — find where revenue is leaking out of your funnel and operations, and build cohesive, data-driven systems that supercharge operations, boost revenue, and help brands thrive.</p>
+
+  <h3>What kinds of businesses do you work with?</h3>
+  <p>Clients across wellness and hospitality, professional services, consumer and DTC brands, and growth-stage companies. Work has included internal web apps, automated client systems, CRM builds, VoIP/IVR phone infrastructure, paid acquisition, and consumer mobile product management.</p>
+
+  <h3>Can you build a custom CRM or marketing automation?</h3>
+  <p>Yes — I build CRMs from the ground up, including on GoHighLevel, with pipelines, lifecycle automations, and workflows that move a customer from first lead to repeat buyer.</p>
+
+  <h3>Do you manage Google and Meta ad campaigns?</h3>
+  <p>Yes. I design and run full funnels and lead-gen operations and manage Google and Meta campaigns backed by analytics that turn ad spend into measurable pipeline — work that's driven 40%+ revenue growth and 50%+ conversion lifts.</p>
+
+  <h3>Are you available for freelance or fractional work?</h3>
+  <p>Yes — consulting, product builds, brand and growth projects, and fractional digital operations, remote and across the U.S.</p>
+
+  <h3>Why hire one person instead of a full team?</h3>
+  <p>Most projects break in the gaps between teams. I design, build, market, and measure under one roof, so every engagement moves faster with fewer handoffs and systems that actually fit together.</p>
+</section>
+-->
