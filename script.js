@@ -74,6 +74,7 @@
   const workAlign = document.getElementById("workAlign");
   const workViewport = document.getElementById("workViewport");
   const workTrack = document.getElementById("workTrack");
+  const workTrackSpacer = document.getElementById("workTrackSpacer");
   const workPrev = document.getElementById("workPrev");
   const workNext = document.getElementById("workNext");
   const workCurrent = document.getElementById("workCurrent");
@@ -132,6 +133,30 @@
       return Number.isFinite(rootPad) ? rootPad : 80;
     }
 
+    function getMaxScrollOffset() {
+      return Math.max(0, workTrack.scrollWidth - workViewport.clientWidth);
+    }
+
+    function ensureScrollRoom(requiredOffset) {
+      const lastCard = cards[total - 1];
+      if (!lastCard || !workTrackSpacer) return;
+
+      const clientW = workViewport.clientWidth;
+      const contentEnd = lastCard.offsetLeft + lastCard.offsetWidth;
+      let spare = Math.max(getEdgePad(), requiredOffset + clientW - contentEnd);
+      const currentSpare = workTrackSpacer.offsetWidth;
+
+      if (spare < currentSpare) spare = currentSpare;
+
+      while (spare < 3000) {
+        workTrackSpacer.style.flexBasis = spare + "px";
+        workTrackSpacer.style.width = spare + "px";
+        workTrack.offsetHeight;
+        if (getMaxScrollOffset() >= requiredOffset) break;
+        spare += 32;
+      }
+    }
+
     function getSlideTarget(index) {
       const card = cards[index];
       if (!card) return 0;
@@ -141,21 +166,24 @@
         ? workAlign.getBoundingClientRect().left
         : metrics.left;
       const cardWidth = card.offsetWidth;
-      const edgeGap = index === total - 1 ? 24 : 8;
-      let desiredLeft = alignLeft;
+      const edgeGap = 12;
+      const leftInset = alignLeft - metrics.left;
+      const leftOffset = Math.max(0, card.offsetLeft - leftInset);
 
-      if (index === total - 1 || cardWidth > metrics.width - (alignLeft - metrics.left)) {
-        desiredLeft = Math.min(alignLeft, metrics.right - cardWidth - edgeGap);
-      }
+      if (index !== total - 1) return leftOffset;
 
-      const inset = desiredLeft - metrics.left;
-      return Math.max(0, card.offsetLeft - inset);
+      const rightInset = (metrics.right - edgeGap - cardWidth) - metrics.left;
+      const rightOffset = Math.max(0, card.offsetLeft - rightInset);
+
+      ensureScrollRoom(Math.max(leftOffset, rightOffset));
+      const maxOffset = getMaxScrollOffset();
+
+      if (leftOffset <= maxOffset) return leftOffset;
+      return Math.min(rightOffset, maxOffset);
     }
 
     function getSlideOffset(index) {
-      const target = getSlideTarget(index);
-      const maxOffset = Math.max(0, workTrack.scrollWidth - getViewportMetrics().clientWidth);
-      return Math.max(0, Math.min(maxOffset, target));
+      return getSlideTarget(index);
     }
 
     function getTrackTranslate() {
@@ -164,33 +192,30 @@
     }
 
     function getTranslateBounds() {
-      updateTrackPadding();
-      workTrack.offsetHeight;
-      const maxOffset = Math.max(0, workTrack.scrollWidth - workViewport.clientWidth);
+      ensureScrollRoom(getSlideTarget(total - 1));
+      const maxOffset = getMaxScrollOffset();
       return { min: -maxOffset, max: 0 };
     }
 
     function resolveFinalOffset(index) {
-      updateTrackPadding();
-      workTrack.offsetHeight;
-
-      let offset = getSlideOffset(index);
-      if (index !== total - 1) return offset;
-
       const savedTransform = workTrack.style.transform;
       const savedTransition = workTrack.style.transition;
-      workTrack.style.transition = "none";
+      let offset = getSlideTarget(index);
 
-      for (let guard = 0; guard < 6; guard++) {
-        workTrack.style.transform = "translateX(" + (-offset) + "px)";
-        workTrack.offsetHeight;
-        const overflow = cards[index].getBoundingClientRect().right - getViewportMetrics().right;
-        if (overflow <= 0.5) break;
-        offset += overflow + 6;
-        const pad = parseFloat(workTrack.style.paddingRight) || 0;
-        workTrack.style.paddingRight = (pad + overflow + 20) + "px";
-        workTrack.offsetHeight;
-        offset = Math.max(offset, getSlideOffset(index));
+      workTrack.style.transition = "none";
+      workTrack.style.transform = "translateX(" + (-offset) + "px)";
+      workTrack.offsetHeight;
+
+      if (index === total - 1) {
+        const metrics = getViewportMetrics();
+        const clipRight = metrics.right - 12;
+        const overflow = cards[index].getBoundingClientRect().right - clipRight;
+        if (overflow > 0) {
+          offset = Math.min(getMaxScrollOffset(), offset + overflow);
+          ensureScrollRoom(offset);
+          workTrack.style.transform = "translateX(" + (-offset) + "px)";
+          workTrack.offsetHeight;
+        }
       }
 
       workTrack.style.transform = savedTransform;
@@ -211,14 +236,7 @@
     }
 
     function updateTrackPadding() {
-      const lastCard = cards[total - 1];
-      if (!lastCard) return;
-
-      const metrics = getViewportMetrics();
-      const lastTarget = getSlideTarget(total - 1);
-      const contentEnd = lastCard.offsetLeft + lastCard.offsetWidth;
-      const spare = Math.max(getEdgePad(), lastTarget + metrics.clientWidth - contentEnd);
-      workTrack.style.paddingRight = spare + "px";
+      ensureScrollRoom(getSlideTarget(total - 1));
     }
 
     function updateWorkControls() {
@@ -492,5 +510,189 @@
     status.classList.remove("is-success", "is-error");
     if (type === "success") status.classList.add("is-success");
     if (type === "error") status.classList.add("is-error");
+  }
+
+  /* ---- Skills constellation (desktop) ---- */
+  const constellationEl = document.getElementById("skillsConstellation");
+  const constellationNodes = document.getElementById("constellationNodes");
+  const constellationStage = document.getElementById("constellationStage");
+  const constellationDetail = document.getElementById("constellationDetail");
+  const constellationDetailNum = document.getElementById("constellationDetailNum");
+  const constellationDetailTitle = document.getElementById("constellationDetailTitle");
+  const constellationDetailList = document.getElementById("constellationDetailList");
+  const constellationBackdrop = document.getElementById("constellationBackdrop");
+  const constellationHint = document.getElementById("constellationHint");
+  const pillarEls = document.querySelectorAll(".pillars--fallback .pillar");
+
+  if (constellationEl && constellationNodes && pillarEls.length) {
+    const desktopQuery = window.matchMedia("(min-width: 861px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const skillsData = Array.from(pillarEls).map(function (pillar) {
+      return {
+        num: pillar.querySelector(".pillar__num").textContent.trim(),
+        title: pillar.querySelector(".pillar__title").textContent.trim(),
+        skills: Array.from(pillar.querySelectorAll(".pillar__list li")).map(function (li) {
+          return li.textContent.trim();
+        }),
+      };
+    });
+
+    let rotationAngle = 0;
+    let autoRotate = true;
+    let activeIndex = null;
+    let rotationTimer = null;
+    let nodeButtons = [];
+    let orbitRadius = 200;
+
+    function getOrbitRadius() {
+      const stageW = constellationStage ? constellationStage.clientWidth : 640;
+      return Math.min(260, Math.max(160, stageW * 0.34));
+    }
+
+    function nodePosition(index, total) {
+      const angle = ((index / total) * 360 + rotationAngle) % 360;
+      const radian = (angle * Math.PI) / 180;
+      const x = orbitRadius * Math.cos(radian);
+      const y = orbitRadius * Math.sin(radian);
+      const zIndex = Math.round(100 + 50 * Math.cos(radian));
+      const opacity = Math.max(0.42, Math.min(1, 0.42 + 0.58 * ((1 + Math.sin(radian)) / 2)));
+      return { x: x, y: y, zIndex: zIndex, opacity: opacity };
+    }
+
+    function applyNodePositions() {
+      const total = skillsData.length;
+      nodeButtons.forEach(function (btn, index) {
+        const pos = nodePosition(index, total);
+        const isActive = activeIndex === index;
+        btn.style.transform = "translate(" + pos.x + "px, " + pos.y + "px)" + (isActive ? " scale(1.18)" : "");
+        btn.style.zIndex = String(isActive ? 200 : pos.zIndex);
+        btn.style.opacity = isActive ? "1" : String(pos.opacity);
+      });
+    }
+
+    function centerOnNode(index) {
+      const total = skillsData.length;
+      rotationAngle = 270 - (index / total) * 360;
+      applyNodePositions();
+    }
+
+    function showDetail(index) {
+      const item = skillsData[index];
+      if (!item || !constellationDetail) return;
+
+      if (constellationDetailNum) constellationDetailNum.textContent = item.num;
+      if (constellationDetailTitle) constellationDetailTitle.textContent = item.title;
+      if (constellationDetailList) {
+        constellationDetailList.innerHTML = item.skills.map(function (skill) {
+          return "<li>" + skill + "</li>";
+        }).join("");
+      }
+
+      constellationDetail.hidden = false;
+      if (constellationBackdrop) constellationBackdrop.hidden = false;
+      if (constellationHint) constellationHint.textContent = "Tap backdrop or press Esc to close";
+    }
+
+    function closeDetail() {
+      activeIndex = null;
+      autoRotate = true;
+      nodeButtons.forEach(function (btn) { btn.classList.remove("is-active"); });
+      if (constellationDetail) constellationDetail.hidden = true;
+      if (constellationBackdrop) constellationBackdrop.hidden = true;
+      if (constellationHint) constellationHint.textContent = "Click a node to explore";
+      startAutoRotate();
+    }
+
+    function toggleNode(index) {
+      if (activeIndex === index) {
+        closeDetail();
+        return;
+      }
+
+      activeIndex = index;
+      autoRotate = false;
+      stopAutoRotate();
+      centerOnNode(index);
+
+      nodeButtons.forEach(function (btn, i) {
+        btn.classList.toggle("is-active", i === index);
+        btn.setAttribute("aria-expanded", i === index ? "true" : "false");
+      });
+
+      showDetail(index);
+    }
+
+    function buildNodes() {
+      constellationNodes.innerHTML = "";
+      nodeButtons = skillsData.map(function (item, index) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "constellation__node";
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", item.title + " skills");
+        btn.innerHTML = "<span class=\"mono\">" + item.num + "</span><span class=\"constellation__node-label\">" + item.title + "</span>";
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleNode(index);
+        });
+        constellationNodes.appendChild(btn);
+        return btn;
+      });
+    }
+
+    function startAutoRotate() {
+      stopAutoRotate();
+      if (reducedMotionQuery.matches || !desktopQuery.matches) return;
+
+      rotationTimer = window.setInterval(function () {
+        if (!autoRotate) return;
+        rotationAngle = (rotationAngle + 0.28) % 360;
+        applyNodePositions();
+      }, 50);
+    }
+
+    function stopAutoRotate() {
+      if (rotationTimer) {
+        clearInterval(rotationTimer);
+        rotationTimer = null;
+      }
+    }
+
+    function initConstellation() {
+      if (!desktopQuery.matches) {
+        stopAutoRotate();
+        return;
+      }
+
+      orbitRadius = getOrbitRadius();
+      if (!nodeButtons.length) buildNodes();
+      applyNodePositions();
+      startAutoRotate();
+    }
+
+    if (constellationBackdrop) {
+      constellationBackdrop.addEventListener("click", closeDetail);
+    }
+
+    if (constellationStage) {
+      constellationStage.addEventListener("click", function (e) {
+        if (e.target === constellationStage && activeIndex !== null) closeDetail();
+      });
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && activeIndex !== null) closeDetail();
+    });
+
+    desktopQuery.addEventListener("change", initConstellation);
+    window.addEventListener("resize", function () {
+      if (!desktopQuery.matches) return;
+      orbitRadius = getOrbitRadius();
+      if (activeIndex !== null) centerOnNode(activeIndex);
+      else applyNodePositions();
+    });
+
+    initConstellation();
   }
 })();

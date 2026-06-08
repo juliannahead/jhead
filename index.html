@@ -174,7 +174,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css?v=37" />
+  <link rel="stylesheet" href="styles.css?v=40" />
 </head>
 <body>
   <!-- Navigation -->
@@ -341,6 +341,7 @@
               <li>Product Management</li><li>Roadmap</li><li>Mobile</li>
             </ul>
           </article>
+          <div class="work__track-spacer" id="workTrackSpacer" aria-hidden="true"></div>
             </div>
           </div>
           <div class="work__progress" id="workProgress" aria-hidden="true">
@@ -367,7 +368,25 @@
           </p>
         </div>
 
-        <div class="pillars">
+        <div class="constellation reveal" id="skillsConstellation" aria-label="Interactive skills constellation">
+          <div class="constellation__stage" id="constellationStage">
+            <button type="button" class="constellation__backdrop" id="constellationBackdrop" aria-label="Close skill detail" tabindex="-1" hidden></button>
+            <div class="constellation__orbit-ring" aria-hidden="true"></div>
+            <div class="constellation__hub" aria-hidden="true">
+              <span class="constellation__hub-dot"></span>
+              <p class="constellation__hub-label mono">Every layer</p>
+            </div>
+            <div class="constellation__nodes" id="constellationNodes"></div>
+            <aside class="constellation__detail" id="constellationDetail" aria-live="polite" hidden>
+              <span class="constellation__detail-num mono" id="constellationDetailNum"></span>
+              <h3 class="constellation__detail-title" id="constellationDetailTitle"></h3>
+              <ul class="constellation__detail-list" id="constellationDetailList"></ul>
+            </aside>
+          </div>
+          <p class="constellation__hint mono" id="constellationHint">Click a node to explore</p>
+        </div>
+
+        <div class="pillars pillars--fallback">
           <div class="pillar reveal">
             <span class="pillar__num mono">01</span>
             <h3 class="pillar__title">Design &amp; Brand</h3>
@@ -553,6 +572,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=23"></script>
+  <script src="script.js?v=26"></script>
 </body>
 </html>
