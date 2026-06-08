@@ -587,6 +587,13 @@ ul { list-style: none; }
   align-items: start;
 }
 .about__left .section-title { margin-top: 4px; }
+.about__eyebrow {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+}
 .about__right p {
   color: var(--grey);
   font-size: clamp(1.05rem, 1.5vw, 1.25rem);
