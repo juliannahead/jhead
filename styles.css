@@ -1041,10 +1041,10 @@ ul { list-style: none; }
 .contact__inner { position: relative; z-index: 1; }
 .contact__title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3rem, 11vw, 8rem);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   margin-bottom: 30px;
 }
 .contact__lede {
